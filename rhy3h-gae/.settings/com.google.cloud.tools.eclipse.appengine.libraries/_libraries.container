@@ -1,0 +1,5 @@
+[
+  "appengine-endpoints",
+  "appengine-api",
+  "clouddatastore"
+]

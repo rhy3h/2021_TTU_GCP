@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>rhy3h - GAE</title>
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link rel="shortcut icon" href="files/images/favicon.ico" />
+		<link rel="stylesheet" type="text/css" href="files/main.css">
+		<style>
+			#panel #content .link {
+				display: block;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="panel">
+
+			<div id="header">
+				<h1><a href="" target="_parent">GAE 2021</a></h1>
+
+				<div id="sections">
+				</div>
+
+				<div id="expandButton"></div>
+			</div>
+
+			<div id="panelScrim"></div>
+
+			<div id="contentWrapper">
+				<div id="content">
+					<div id="homeworks">
+
+					</div>
+
+					<h2>Code</h2>
+					<ul>
+						<li><a href="https://github.com/rhy3h/rhy3h-gcp/" target="_blank">github</a></li>
+						<li><a href="https://github.com/rhy3h/rhy3h-gcp/archive/refs/heads/main.zip">download</a></li>
+					</ul>
+					<h2>Contact</h2>
+					<ul>
+						<li><a href="https://github.com/rhy3h" target="_blank">author</a></li>
+						<li><a href="https://mail.google.com/mail/?view=cm&fs=1&to=ricciyeh880427@gmail.com" target="_blank">gmail</a></li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+
+		<iframe id="viewer" name="viewer" allowfullscreen allowvr onmousewheel=""></iframe>
+
+		<a id="button" target="_blank"><img src="files/ic_code_black_24dp.svg"></a>
+
+		<script src="files/files.js"></script>
+
+		<script>
+
+		function extractQuery() {
+
+			var p = window.location.search.indexOf( '?q=' );
+
+			if ( p !== - 1 ) {
+
+				return window.location.search.substr( 3 );
+
+			}
+
+			return '';
+
+		}
+
+		var panel = document.getElementById( 'panel' );
+		var content = document.getElementById( 'homeworks' );
+		var viewer = document.getElementById( 'viewer' );
+
+		var exitSearchButton = document.getElementById( 'exitSearchButton' );
+
+		var expandButton = document.getElementById( 'expandButton' );
+		expandButton.addEventListener( 'click', function ( event ) {
+
+			event.preventDefault();
+			panel.classList.toggle( 'open' );
+
+		} );
+
+		var panelScrim = document.getElementById( 'panelScrim' );
+		panelScrim.onclick = function ( event ) {
+
+			event.preventDefault();
+			panel.classList.toggle( 'open' );
+
+		};
+
+		// iOS iframe auto-resize workaround
+
+		if ( /(iPad|iPhone|iPod)/g.test( navigator.userAgent ) ) {
+
+			viewer.style.width = getComputedStyle( viewer ).width;
+			viewer.style.height = getComputedStyle( viewer ).height;
+			viewer.setAttribute( 'scrolling', 'no' );
+
+		}
+
+		var container = document.createElement( 'div' );
+		content.appendChild( container );
+
+		var viewSrcButton = document.getElementById( 'button' );
+		viewSrcButton.style.display = 'none';
+
+		var links = {};
+		var selected = null;
+
+		function createLink( file ) {
+
+			var link = document.createElement( 'a' );
+			link.className = 'link';
+			link.href = file;
+			
+			link.textContent = file;
+			link.setAttribute( 'target', 'viewer' );
+			link.addEventListener( 'click', function ( event ) {
+
+				if ( event.button !== 0 || event.ctrlKey || event.altKey || event.metaKey ) return;
+
+				selectFile( file );
+
+			} );
+
+			return link;
+
+		}
+
+		for ( var key in files ) {
+
+			var section = files[ key ];
+
+			var header = document.createElement( 'h2' );
+			header.textContent = key;
+			header.setAttribute( 'data-category', key );
+			container.appendChild( header );
+
+			for ( var i = 0; i < section.length; i ++ ) {
+
+				var file = section[ i ];
+
+				var link = createLink( file );
+				container.appendChild( link );
+
+				links[ file ] = link;
+
+			}
+
+		}
+
+		function loadFile( file ) {
+
+			selectFile( file );
+			viewer.src = file;
+
+		}
+
+		function selectFile( file ) {
+
+			if ( selected !== null ) links[ selected ].classList.remove( 'selected' );
+
+			links[ file ].classList.add( 'selected' );
+
+			window.location.hash = file;
+			viewer.focus();
+
+			panel.classList.remove( 'open' );
+
+			selected = file;
+			
+			// Reveal "View source" button and set attributes to this example
+			viewSrcButton.style.display = '';
+			viewSrcButton.href = 'https://github.com/rhy3h/rhy3h-gcp/blob/main/rhy3h-gae/src/main/';
+			if(selected.indexOf("jsp") > -1){
+				viewSrcButton.href += 'webapp/' + selected;
+			}
+			else{
+				viewSrcButton.href += 'java/rhy3h/' + selected + '.java';
+			}
+			viewSrcButton.title = 'View source code for ' + selected + ' on GitHub';
+
+		}
+
+		if ( window.location.hash !== '' && links[ window.location.hash.substring( 1 ) ] ) {
+
+			loadFile( window.location.hash.substring( 1 ) );
+
+		}
+
+		function getName( file ) {
+
+			var name = file.split();
+			return name.join( ' /examples/ ' );
+
+		}
+
+		</script>
+
+	</body>
+</html>
