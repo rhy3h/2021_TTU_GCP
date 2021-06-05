@@ -166,7 +166,7 @@ if(request.getParameter("submit") != null){
 		</div>
 		<div class="row">
 			<div class="col">
-				<a class="w-100 btn btn-lg btn-secondary" href="/Board.jsp">Cancel</a>	
+				<a class="w-100 btn btn-lg btn-secondary" href="/Board.jsp">取消</a>	
 			</div>
 			<div class="col">
 			<button class="w-100 btn btn-lg btn-primary" name="submit" type="submit">修改留言</button>
