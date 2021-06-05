@@ -12,5 +12,9 @@ var files = {
 		"ListFriend",
 		"UpdateFriend.jsp"
 	],
+	"Project":[
+		"Board.jsp",
+		"New.jsp",
+	],
 	
 };
